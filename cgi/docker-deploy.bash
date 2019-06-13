@@ -11,7 +11,7 @@ fi
 declare -A param   
 while IFS='=' read -r -d '&' key value && [[ -n "$key" ]]; do
     param["$key"]=$value
-done <<<"${QUERY_STRING}&"
+done
 
 IMAGE="${param[image]}"
 TOKEN="${param[token]}"
