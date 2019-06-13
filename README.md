@@ -35,14 +35,14 @@ On Ubuntu Bionic, there's a pre-written configuration for CGI at `/etc/apache2/c
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 ```
 
-You can simply add `Include /etc/apache2/conf-available/serve-cgi-bin.conf` in your virtual host configuration.
+You can simply add `Include /etc/apache2/conf-available/serve-cgi-bin.conf` in your controller's machine virtual host configuration.
 
 With that CGI configuration, for the CGI script to be called by apache2, it needs to be inside the `/usr/lib/cgi-bin` folder, after cloning this repositority, you can simply copy the `cgi/docker-deploy.bash` script over to that folder.
 
 The CGI script at `cgi/docker-deploy.bash` needs configuration, for that, it uses the environment.
-Apache2 provides a way to pass down environment within a virtual host, therefore, there is an example configuration at `apache2_conf/docker-deploy.conf` that you can write at `/etc/apache2/conf-available/docker-deploy.conf` and use in similar ways to the above CGI configuration.
+Apache2 provides a way to pass down environment within a virtual host, therefore, there is an example configuration at `apache2_conf/docker-deploy.conf` that you can write at `/etc/apache2/conf-available/docker-deploy.conf` and include it in similar ways to the above CGI configuration.
 
-Note that for ssh to work properly, the identity private key must be owned by the user that will execute the CGI script, for the case of apache2, it is likely to be `www-data`. You can create the `/var/www/.ssh` folder then make sure that folder and all files insides it are owned by `www-data` with `chown -R www-data /var/www/.ssh`. A `known_hosts` file should also exist within that `/var/www/.ssh` folder with the deploy machine's ssh host key already filled in.
+Note that for ssh to work properly, the identity private key must be owned by the user that will execute the CGI script, for the case of apache2, it is likely to be `www-data` and `www-data`'s home directory is likely to be `/var/www`. You can create the `/var/www/.ssh` folder then make sure that folder and all files inside it are owned by `www-data` with `chown -R www-data /var/www/.ssh`. A `known_hosts` file should also exist within that `/var/www/.ssh` folder with the deploy machine's ssh host key already filled in.
 
 Below you can find commands that will configure this properly; run these as root.
 
