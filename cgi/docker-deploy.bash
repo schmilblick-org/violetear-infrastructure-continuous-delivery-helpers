@@ -3,7 +3,7 @@
 echo "Content-Type: text/plain"
 echo
 
-if [[ -n "$DOCKER_REMOTE_SSH_KEY" ]] || [[ -n "$DOCKER_REMOTE_USER" ]] || [[ -n "$DOCKER_REMOTE_HOST" ]] || [[ -n "$AUTHORIZED_TOKEN" ]]; then
+if [[ -z "$DOCKER_REMOTE_SSH_KEY" ]] || [[ -z "$DOCKER_REMOTE_USER" ]] || [[ -z "$DOCKER_REMOTE_HOST" ]] || [[ -z "$AUTHORIZED_TOKEN" ]]; then
     echo "At least one configuration parameter is missing"
     exit 1
 fi
@@ -18,7 +18,7 @@ TOKEN="${param[token]}"
 NAME="${param[name]}"
 PORT="${param[port]}"
 
-if [[ -n "$IMAGE" ]] || [[ -n "$TOKEN" ]] || [[ -n "$NAME" ]] || [[ -n "$PORT" ]]; then
+if [[ -z "$IMAGE" ]] || [[ -z "$TOKEN" ]] || [[ -z "$NAME" ]] || [[ -z "$PORT" ]]; then
     echo "Missing image, port, token or name query parameter"
     exit 1
 fi
