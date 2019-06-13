@@ -28,7 +28,7 @@ if [[ "$TOKEN" != "$AUTHORIZED_TOKEN" ]]; then
     exit 1
 fi
 
-ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" -- docker pull "$IMAGE"
-ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" -- docker stop "$NAME"
-ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" -- docker rm "$NAME"
-ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" -- docker run --restart always -d -p "$PORT":"$PORT" --env PORT="$PORT" --name "$NAME" "$IMAGE"
+ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" docker pull "$IMAGE"
+ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" docker stop "$NAME"
+ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" docker rm "$NAME"
+ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" docker run --restart always -d -p "$PORT":"$PORT" --env PORT="$PORT" --name "$NAME" "$IMAGE"
