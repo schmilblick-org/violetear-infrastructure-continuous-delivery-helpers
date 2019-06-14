@@ -17,6 +17,11 @@ IMAGE="${param[image]}"
 TOKEN="${param[token]}"
 NAME="${param[name]}"
 PORT="${param[port]}"
+IMAGE_PORT="${param[image_port]}"
+
+if [[ -z "$IMAGE_PORT" ]]; then
+    IMAGE_PORT="$PORT"
+fi
 
 if [[ -z "$IMAGE" ]] || [[ -z "$TOKEN" ]] || [[ -z "$NAME" ]] || [[ -z "$PORT" ]]; then
     echo "Missing image, port, token or name query parameter"
@@ -28,6 +33,6 @@ if [[ "$TOKEN" != "$AUTHORIZED_TOKEN" ]]; then
     exit 1
 fi
 
-COMMANDS="docker pull \"$IMAGE\"; docker stop \"$NAME\"; docker rm \"$NAME\"; docker run --restart always -d -p \"$PORT\":\"$PORT\" --env PORT=\"$PORT\" --name \"$NAME\" \"$IMAGE\";"
+COMMANDS="docker pull \"${IMAGE@Q}\"; docker stop \"${NAME@Q}\"; docker rm \"${NAME@Q}\"; docker run --restart always -d -p \"${PORT@Q}\":\"${IMAGE_PORT@Q}\" --env PORT=\"${PORT@Q}\" --name \"${NAME@Q}\" \"${IMAGE@Q}\";"
 
 ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" -t "bash -l -c \"$COMMANDS\""
