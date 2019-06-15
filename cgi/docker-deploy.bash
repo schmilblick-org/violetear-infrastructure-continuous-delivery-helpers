@@ -33,6 +33,14 @@ if [[ "$TOKEN" != "$AUTHORIZED_TOKEN" ]]; then
     exit 1
 fi
 
-COMMANDS="docker pull \"${IMAGE@Q}\"; docker stop \"${NAME@Q}\"; docker rm \"${NAME@Q}\"; docker run --restart always -d -p \"${PORT@Q}\":\"${IMAGE_PORT@Q}\" --env PORT=\"${PORT@Q}\" --name \"${NAME@Q}\" \"${IMAGE@Q}\";"
+DOCKER_ENV=""
+for key in "${!param[@]}"; do
+    if [[ "$key" != "image" ]] && [[ "$key" != "token" ]] && [[ "$key" != "name" ]] && [[ "$key" != "port" ]] && [[ "$key" != "image_port" ]]; then
+
+    fi
+    DOCKER_ENV += "-e \"${key@Q}=${param[$key]@Q}\" "
+done
+
+COMMANDS="docker pull \"${IMAGE@Q}\"; docker stop \"${NAME@Q}\"; docker rm \"${NAME@Q}\"; docker run --restart always -d -p \"${PORT@Q}\":\"${IMAGE_PORT@Q}\" --env PORT=\"${PORT@Q}\" ${DOCKER_ENV} --name \"${NAME@Q}\" \"${IMAGE@Q}\";"
 
 ssh -i "${DOCKER_REMOTE_SSH_KEY}" "${DOCKER_REMOTE_USER}@${DOCKER_REMOTE_HOST}" -t "bash -l -c \"$COMMANDS\""
