@@ -36,9 +36,8 @@ fi
 DOCKER_ENV=""
 for key in "${!param[@]}"; do
     if [[ "$key" != "image" ]] && [[ "$key" != "token" ]] && [[ "$key" != "name" ]] && [[ "$key" != "port" ]] && [[ "$key" != "image_port" ]]; then
-
+        DOCKER_ENV += "-e \"${key@Q}=${param[$key]@Q}\" "
     fi
-    DOCKER_ENV += "-e \"${key@Q}=${param[$key]@Q}\" "
 done
 
 COMMANDS="docker pull \"${IMAGE@Q}\"; docker stop \"${NAME@Q}\"; docker rm \"${NAME@Q}\"; docker run --restart always -d -p \"${PORT@Q}\":\"${IMAGE_PORT@Q}\" --env PORT=\"${PORT@Q}\" ${DOCKER_ENV} --name \"${NAME@Q}\" \"${IMAGE@Q}\";"
