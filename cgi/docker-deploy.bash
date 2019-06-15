@@ -36,7 +36,7 @@ fi
 DOCKER_ENV=""
 for key in "${!param[@]}"; do
     if [[ "$key" != "image" ]] && [[ "$key" != "token" ]] && [[ "$key" != "name" ]] && [[ "$key" != "port" ]] && [[ "$key" != "image_port" ]]; then
-        DOCKER_ENV += "-e \"${key@Q}=${param[$key]@Q}\" "
+        DOCKER_ENV+="-e \"${key@Q}=${param[$key]@Q}\" "
     fi
 done
 
